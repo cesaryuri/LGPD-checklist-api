@@ -1,8 +1,8 @@
 TRUNCATE TABLE 
-  "users", "sections", "laws", "devices", "items", "systems", "checklists", "checklist_items"
+  "users", "principles", "devices", "items", "systems", "checklists", "checklist_items"
 RESTART IDENTITY CASCADE;
 
-INSERT INTO sections (name) VALUES
+INSERT INTO principles (name) VALUES
 ('Sobre transparência de Dados (T)'),
 ('Sobre Consentimento do Titular (C)'),
 ('Sobre os Direitos do Titular (D)'),
@@ -10,13 +10,6 @@ INSERT INTO sections (name) VALUES
 ('Sobre Responsabilidade do Controlador (R)'),
 ('Acesso ao Dispositivo (A)'),
 ('Segurança Física (SF)');
-
-INSERT INTO laws (name) VALUES
-('Lei Geral de Proteção de Dados (LGPD) - Brasil'),
-('General Data Protection Regulation (GDPR) - União Europeia'),
-('California Consumer Privacy Act (CCPA / CPRA) - EUA'),
-('Privacy Act 1988 - Austrália'),
-('American Data Privacy and Protection Act (ADPPA) - Proposta EUA');
 
 INSERT INTO devices (name) VALUES
 ('Câmera de Segurança IP'),
@@ -102,7 +95,7 @@ INSERT INTO users (name, office, email, password) VALUES
 ('Bento Ribeiro', 'Comediante', 'bento.humor@empresa.com', 'humor_pass'),
 ('Cauã Reymond', 'Ator', 'caua.actor@empresa.com', 'actor_pass');
 
-INSERT INTO items (code, item_desc, recommendations, is_mandatory, "section_id") VALUES
+INSERT INTO items (code, item_desc, recommendations, is_mandatory, principle_id) VALUES
 ('T-01', 'As finalidades de tratamento de dados foram definidas na organização?', 'Crie um documento (Política de Privacidade) descrevendo os objetivos e a forma de utilização dos dados.', true, 1),
 ('T-02', 'O tratamento de dados pessoais é realizado de acordo com uma base legal?', 'Na Política de Privacidade, explique a base legal do tratamento (ex: consentimento, obrigação legal). Consulte o Art. 7 da LGPD para a lista completa.', true, 1),
 ('T-03', 'O sistema informa ao titular sobre as finalidades de tratamento de dados pessoais?', 'O sistema deve disponibilizar a Política de Privacidade ou Termos de Consentimento para o titular.', true, 1),
@@ -277,22 +270,7 @@ INSERT INTO checklist_items (checklist_id, item_id, answer, severity_degree, use
 (39, 39, 'Conforme', 'Nenhum', 'Consequências da negação do consentimento são informadas.'),
 (40, 40, 'Conforme', 'Baixo', 'Informação sobre tratamento condicional é clara.');
 
-INSERT INTO "_item_laws" ("A", "B") VALUES
-(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
-(11, 1), (12, 1), (13, 1), (14, 1), (15, 2), (16, 2), (17, 2), (18, 2), (19, 2), (20, 2),
-(21, 2), (22, 2), (23, 3), (24, 3), (25, 3), (26, 3), (27, 3), (28, 3), (29, 3), (30, 3),
-(31, 1), (32, 1), (33, 1), (34, 1), (35, 1), (36, 1), (37, 1), (38, 1), (39, 1), (40, 1),
-(41, 1), (42, 1), (43, 1), (44, 1), (45, 1), (46, 1), (47, 1), (48, 1), (49, 1), (50, 1),
-(51, 1), (52, 1), (53, 1), (54, 1), (55, 1), (56, 1), (57, 1), (58, 1), (59, 1), (60, 1),
-(61, 1), (62, 1), (63, 1), (64, 1), (65, 1), (66, 1), (67, 1), (68, 1), (69, 1), (70, 1),
-(71, 1), (72, 1), (73, 1), (74, 1), (75, 1), (76, 1), (77, 1);
-
-INSERT INTO "_checklist_laws" ("A", "B") VALUES
-(1, 1), (2, 2), (3, 3), (4, 1), (5, 1), (6, 1), (7, 3), (8, 1), (9, 3), (10, 2),
-(11, 1), (12, 1), (13, 3), (14, 1), (15, 1), (16, 2), (17, 1), (18, 1), (19, 1), (20, 4),
-(21, 1), (22, 5), (23, 2), (24, 1), (25, 2), (26, 1), (27, 1), (28, 3), (29, 1), (30, 1),
-(31, 1), (32, 3), (33, 2), (34, 3), (35, 1), (36, 1), (37, 3), (38, 1), (39, 2), (40, 1);
-
+-- Esta tabela é gerada automaticamente pelo Prisma para atender à relação de muitos para muitos entre Checklist e Devices
 INSERT INTO "_checklist_devices" ("A", "B") VALUES
 (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10),
 (11, 11), (12, 12), (13, 13), (14, 14), (15, 15), (16, 16), (17, 17), (18, 18), (19, 19), (20, 20),

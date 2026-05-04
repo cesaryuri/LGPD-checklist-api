@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "extensionless": {
     "lookFor": [
       "js",
@@ -30,7 +31,7 @@
     "test:ui": "vitest --ui",
     "test:all": "run-s test test:e2e test:arch",
     "dev": "ts-node-dev src/main.ts",
-    "start": "node --import=extensionless/register dist/src/main.js",
+    "start": "node --import=extensionless/register dist/main.js",
     "start:migrate": "npx prisma migrate deploy && npm run start",
     "build": "npm run prisma:generate && tsc && tsc-alias",
     "prisma:format": "npx prisma format",
