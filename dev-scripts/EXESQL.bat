@@ -1,28 +1,23 @@
 @echo off
 :: ===== CONFIGURAÇÃO =====
 set "PGUSER=postgres"
-set "PGPASSWORD=alterar_para_senha_do_bd"
 set "PGDB=bdchecklist"
-set "PGHOST=localhost"
+set "CONTAINER_NAME=lgpd-checklist-api-db-1"
 set "SQLFILE=InserirDadosTeste.sql"
 
-:: ===== VARIÁVEIS DE AMBIENTE =====
-set PGCLIENTENCODING=UTF8
-
 echo.
 echo ===================================================
-echo   INICIANDO SCRIPT DE POPULACAO DE BANCO DE DADOS
+echo   INICIANDO POPULACAO DO BANCO DE DADOS VIA DOCKER
 echo ===================================================
 echo.
-echo Inserindo dados de teste no banco '%PGDB%'...
+echo Inserindo dados de teste no banco '%PGDB%' no container '%CONTAINER_NAME%'...
 
-:: Executa o arquivo .sql usando psql
-psql -U %PGUSER% -h %PGHOST% -d %PGDB% -f %SQLFILE%
+:: Executa o arquivo .sql injetando no psql de dentro do Docker
+type "%~dp0%SQLFILE%" | docker exec -i %CONTAINER_NAME% psql -U %PGUSER% -d %PGDB%
 
 echo.
 echo ===================================================
 echo   SCRIPT FINALIZADO
 echo ===================================================
 echo.
-echo Pressione qualquer tecla para sair...
-pause >nul
+pause
