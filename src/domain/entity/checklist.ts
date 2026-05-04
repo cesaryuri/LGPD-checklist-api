@@ -1,13 +1,13 @@
 import { ChecklistItemEntity } from "./checklistItem";
 import { DeviceEntity } from "./device";
-import { LawEntity } from "./law";
+import { PrincipleEntity } from "./principle"; 
 
 class ChecklistEntity {
   public id: number;
   public userId: number;
   public systemId: number;
   public checklistItems?: ChecklistItemEntity[];
-  public laws?: LawEntity[];
+  public principles?: PrincipleEntity[];
   public devices?: DeviceEntity[];
   public createdAt?: Date;
   public updatedAt?: Date;
@@ -17,7 +17,7 @@ class ChecklistEntity {
     userId: number,
     systemId: number,
     checklistItems?: ChecklistItemEntity[],
-    laws?: LawEntity[],
+    principles?: PrincipleEntity[],
     devices?: DeviceEntity[],
     createdAt?: Date,
     updatedAt?: Date,
@@ -26,7 +26,7 @@ class ChecklistEntity {
     this.userId = userId;
     this.systemId = systemId;
     this.checklistItems = checklistItems;
-    this.laws = laws;
+    this.principles = principles;
     this.devices = devices;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;

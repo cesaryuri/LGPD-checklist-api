@@ -13,7 +13,7 @@ import { UserRepositoryInterface } from "./repository/user";
 import { ItemRepositoryInterface } from "./repository/item";
 import { ChecklistItemEntity } from "../entity/checklistItem";
 import { ItemEntity } from "../entity/item";
-import { LawRepositoryInterface } from "./repository/law";
+import { PrincipleRepositoryInterface } from "./repository/principle";
 import { DeviceRepositoryInterface } from "./repository/device";
 
 class CreateChecklistUseCase {
@@ -25,14 +25,14 @@ class CreateChecklistUseCase {
     systemRepository: SystemRepositoryInterface,
     userRepository: UserRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
+    principleRepository: PrincipleRepositoryInterface,
     deviceRepository: DeviceRepositoryInterface,
   ) {
     this.validate = new validate.CreateChecklistUseCaseValidate(
       systemRepository,
       userRepository,
       itemRepository,
-      lawRepository,
+      principleRepository,
       deviceRepository,
     );
     this.checklistRepository = checklistRepository;
@@ -160,14 +160,14 @@ class UpdateChecklistUseCase {
     checklistRepository: ChecklistRepositoryInterface,
     systemRepository: SystemRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
+    principleRepository: PrincipleRepositoryInterface,
     deviceRepository: DeviceRepositoryInterface,
   ) {
     this.validate = new validate.UpdateChecklistUseCaseValidate(
       checklistRepository,
       systemRepository,
       itemRepository,
-      lawRepository,
+      principleRepository,
       deviceRepository,
     );
     this.checklistRepository = checklistRepository;
@@ -184,7 +184,7 @@ class UpdateChecklistUseCase {
         await this.checklistRepository.runInTransaction(async (repo) => {
           await this.updateItems(req, repo);
 
-          await this.updateLaws(req, repo);
+          await this.updatePrinciples(req, repo);
           await this.updateDevices(req, repo);
 
           // Atualiza o resto dos campos
@@ -234,7 +234,7 @@ class UpdateChecklistUseCase {
           (item) =>
             new ChecklistItemEntity(
               null,
-              new ItemEntity(item.id, null, null, null, null, null, null),
+              new ItemEntity(item.id, null, null, null, null, null),
               item.answer,
               item.severityDegree,
               item.userComment,
@@ -255,21 +255,22 @@ class UpdateChecklistUseCase {
       );
   }
 
-  async updateLaws(
+  async updatePrinciples(
     req: ucio.UpdateChecklistUseCaseRequest,
     repo: ChecklistRepositoryInterface,
   ) {
-    const currentItems = await repo.getLaws(req.id);
+    const currentItems = await repo.getPrinciples(req.id);
 
     const currentIds = currentItems.map((item) => item.id);
-    const newItemsIds = req.laws;
+    const newItemsIds = req.principles;
 
     const itemsToDelete = currentIds.filter((id) => !newItemsIds.includes(id));
-    const itemsToCreate = req.laws.filter((item) => !currentIds.includes(item));
+    const itemsToCreate = newItemsIds.filter((id) => !currentIds.includes(id));
 
-    if (itemsToDelete.length) await repo.removeLaws(req.id, itemsToDelete);
-
-    if (itemsToCreate.length) await repo.insertLaws(req.id, itemsToCreate);
+    if (itemsToDelete.length)
+      await repo.removePrinciples(req.id, itemsToDelete);
+    if (itemsToCreate.length)
+      await repo.insertPrinciples(req.id, itemsToCreate);
   }
 
   async updateDevices(

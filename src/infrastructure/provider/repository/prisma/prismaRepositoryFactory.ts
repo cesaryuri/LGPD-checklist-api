@@ -10,12 +10,10 @@ import { ItemRepositoryInterface } from "../../../../domain/usecase/repository/i
 import { SystemRepositoryInterface } from "../../../../domain/usecase/repository/system";
 import { UserRepositoryInterface } from "../../../../domain/usecase/repository/user";
 import { RepositoryFactory } from "../../../../domain/factory/repositoryFactory";
-import { LawPrismaRepository } from "./law";
 import { DevicePrismaRepository } from "./device";
 import { DeviceRepositoryInterface } from "../../../../domain/usecase/repository/device";
-import { LawRepositoryInterface } from "../../../../domain/usecase/repository/law";
-import { SectionRepositoryInterface } from "../../../../domain/usecase/repository/section";
-import { SectionPrismaRepository } from "./section";
+import { PrinciplePrismaRepository } from "./principle";
+import { PrincipleRepositoryInterface } from "../../../../domain/usecase/repository/principle";
 
 export class PrismaRepositoryFactory implements RepositoryFactory {
   constructor(private prisma: PrismaClient) {}
@@ -36,16 +34,12 @@ export class PrismaRepositoryFactory implements RepositoryFactory {
     return new ItemPrismaRepository(this.prisma);
   }
 
-  makeLawRepository(): LawRepositoryInterface {
-    return new LawPrismaRepository(this.prisma);
+  makePrincipleRepository(): PrincipleRepositoryInterface {
+    return new PrinciplePrismaRepository(this.prisma);
   }
 
   makeDeviceRepository(): DeviceRepositoryInterface {
     return new DevicePrismaRepository(this.prisma);
-  }
-
-  makeSectionRepository(): SectionRepositoryInterface {
-    return new SectionPrismaRepository(this.prisma);
   }
 
   makeAuthRepository(): AuthRepositoryInterface {

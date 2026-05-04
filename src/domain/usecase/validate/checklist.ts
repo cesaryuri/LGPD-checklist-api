@@ -18,7 +18,7 @@ import {
   severityDegreeTypeArray,
 } from "../../entity/checklistItem";
 import { ItemRepositoryInterface } from "../repository/item";
-import { LawRepositoryInterface } from "../repository/law";
+import { PrincipleRepositoryInterface } from "../repository/principle";
 import { DeviceRepositoryInterface } from "../repository/device";
 
 const itemsZodValidation = z
@@ -49,7 +49,7 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
   private systemRepository: SystemRepositoryInterface;
   private userRepository: UserRepositoryInterface;
   private itemRepository: ItemRepositoryInterface;
-  private lawRepository: LawRepositoryInterface;
+  private principleRepository: PrincipleRepositoryInterface;
   private deviceRepository: DeviceRepositoryInterface;
 
   private validationSchema = z.object({
@@ -57,9 +57,9 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
     systemId: zodNumberSchema("SystemId"),
     tokenUserId: zodNumberSchema("Id do token"),
     items: itemsZodValidation,
-    laws: zodNumberSchema("laws").array().nonempty({
-      message: "Laws não pode ser um array vazio.",
-    }),
+    principles: zodNumberSchema("principles").array().nonempty({    // COLOCA
+      message: "Principles não pode ser um array vazio.",           // COLOCA
+    }), 
     devices: zodNumberSchema("devices").array(),
   });
 
@@ -67,13 +67,13 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
     systemRepository: SystemRepositoryInterface,
     userRepository: UserRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
+    principleRepository: PrincipleRepositoryInterface,
     deviceRepository: DeviceRepositoryInterface,
   ) {
     this.systemRepository = systemRepository;
     this.userRepository = userRepository;
     this.itemRepository = itemRepository;
-    this.lawRepository = lawRepository;
+    this.principleRepository = principleRepository;
     this.deviceRepository = deviceRepository;
   }
 
@@ -94,10 +94,10 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
         if (items.length)
           return "Os seguintes ids de item não existem: " + items.join(", ");
 
-        const laws = await this.lawRepository.existByIds(req.laws);
+        const principles = await this.principleRepository.existByIds(req.principles);
 
-        if (laws.length)
-          return "Os seguintes ids de leis não existem: " + laws.join(", ");
+        if (principles.length)
+          return "Os seguintes ids de princípios não existem: " + principles.join(", ");
 
         const devices = await this.deviceRepository.existByIds(req.devices);
 
@@ -184,7 +184,7 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
   private checklistRepository: ChecklistRepositoryInterface;
   private systemRepository: SystemRepositoryInterface;
   private itemRepository: ItemRepositoryInterface;
-  private lawRepository: LawRepositoryInterface;
+  private principleRepository: PrincipleRepositoryInterface;
   private deviceRepository: DeviceRepositoryInterface;
 
   private validationSchema = z.object({
@@ -192,8 +192,8 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
     systemId: zodNumberSchema("SystemId"),
     tokenUserId: zodNumberSchema("Id do token"),
     items: itemsZodValidation,
-    laws: zodNumberSchema("laws").array().nonempty({
-      message: "Laws não pode ser um array vazio.",
+    principles: zodNumberSchema("principles").array().nonempty({
+      message: "Principles não pode ser um array vazio.",
     }),
     devices: zodNumberSchema("devices").array(),
   });
@@ -202,13 +202,13 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
     checklistRepository: ChecklistRepositoryInterface,
     systemRepository: SystemRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
+    principleRepository: PrincipleRepositoryInterface,
     deviceRepository: DeviceRepositoryInterface,
   ) {
     this.checklistRepository = checklistRepository;
     this.systemRepository = systemRepository;
     this.itemRepository = itemRepository;
-    this.lawRepository = lawRepository;
+    this.principleRepository = principleRepository;
     this.deviceRepository = deviceRepository;
   }
 
@@ -235,10 +235,10 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
         if (items.length)
           return "Os seguintes ids de item não existem: " + items.join(", ");
 
-        const laws = await this.lawRepository.existByIds(req.laws);
+        const principles = await this.principleRepository.existByIds(req.principles);
 
-        if (laws.length)
-          return "Os seguintes ids de leis não existem: " + laws.join(", ");
+        if (principles.length)
+          return "Os seguintes ids de princípios não existem: " + principles.join(", ");
 
         const devices = await this.deviceRepository.existByIds(req.devices);
 

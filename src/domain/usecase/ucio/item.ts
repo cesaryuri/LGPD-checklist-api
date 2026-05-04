@@ -1,6 +1,6 @@
 import { DeviceEntity } from "../../entity/device";
 import { ItemEntity } from "../../entity/item";
-import { LawEntity } from "../../entity/law";
+import { PrincipleEntity } from "../../entity/principle";
 import { BaseResponse } from "./common";
 
 export type CreateItemUseCaseRequest = {
@@ -8,13 +8,12 @@ export type CreateItemUseCaseRequest = {
   itemDesc: string;
   recommendations: string;
   isMandatory: boolean;
-  sectionId: number;
-  lawsIds: number[];
+  principleId: number;
   devicesIds: number[];
 };
 
 export type ListItemsUseCaseRequest = {
-  laws: LawEntity["id"][];
+  principles: PrincipleEntity["id"][];
   devices: DeviceEntity["id"][];
 };
 

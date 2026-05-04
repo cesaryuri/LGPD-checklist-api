@@ -8,7 +8,7 @@ import {
   TAG_INTERNAL_SERVER_ERROR,
   TAG_PRE_CONDITIONAL_ERROR,
 } from "../entity/error";
-import { LawRepositoryInterface } from "./repository/law";
+import { PrincipleRepositoryInterface } from "./repository/principle";  // COLOCA
 import { DeviceRepositoryInterface } from "./repository/device";
 
 export class ListItemsUseCase {
@@ -17,12 +17,12 @@ export class ListItemsUseCase {
 
   constructor(
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
+    principleRepository: PrincipleRepositoryInterface,
     deviceRepository: DeviceRepositoryInterface,
   ) {
     this.itemRepository = itemRepository;
     this.validate = new validate.ListItemsUseCaseValidate(
-      lawRepository,
+      principleRepository,
       deviceRepository,
     );
   }

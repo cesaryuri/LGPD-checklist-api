@@ -1,6 +1,5 @@
 import { DeviceEntity } from "./device";
-import { LawEntity } from "./law";
-import { SectionEntity } from "./section";
+import { PrincipleEntity } from "./principle";
 
 export class ItemEntity {
   public id: number;
@@ -8,9 +7,8 @@ export class ItemEntity {
   public itemDesc: string;
   public recommendations: string;
   public isMandatory: boolean;
-  public sectionId: number;
-  public section?: SectionEntity;
-  public laws?: LawEntity[];
+  public principleId: number;         
+  public principle?: PrincipleEntity; 
   public devices?: DeviceEntity[];
 
   constructor(
@@ -19,9 +17,8 @@ export class ItemEntity {
     itemDesc: string,
     recommendations: string,
     isMandatory: boolean,
-    sectionId: number,
-    section?: SectionEntity,
-    laws?: LawEntity[],
+    principleId: number,
+    principle?: PrincipleEntity,
     devices?: DeviceEntity[],
   ) {
     this.id = id;
@@ -29,9 +26,8 @@ export class ItemEntity {
     this.itemDesc = itemDesc;
     this.recommendations = recommendations;
     this.isMandatory = isMandatory;
-    this.sectionId = sectionId;
-    this.section = section;
-    this.laws = laws;
+    this.principleId = principleId;
+    this.principle = principle;
     this.devices = devices;
   }
 }

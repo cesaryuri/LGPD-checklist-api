@@ -13,11 +13,10 @@ import {
   SeverityDegreeType,
 } from "../../../../domain/entity/checklistItem";
 import { ItemEntity } from "../../../../domain/entity/item";
-import { LawEntity } from "../../../../domain/entity/law";
+import { PrincipleEntity } from "../../../../domain/entity/principle";
 import { DeviceEntity } from "../../../../domain/entity/device";
 import { PrismaRepository } from "./repository";
 import { Prisma } from "@prisma/client";
-import { SectionEntity } from "../../../../domain/entity/section";
 
 class ChecklistPrismaRepository
   extends PrismaRepository
@@ -48,8 +47,8 @@ class ChecklistPrismaRepository
             }),
           },
         },
-        laws: {
-          connect: req.laws.map((id) => ({ id })),
+        principles: {
+          connect: req.principles.map((id) => ({ id })),
         },
         devices: {
           connect: req.devices.map((id) => ({ id })),
@@ -60,12 +59,12 @@ class ChecklistPrismaRepository
           include: {
             item: {
               include: {
-                section: true,
+                principle: true,
               },
             },
           },
         },
-        laws: true,
+        principles: true,
         devices: true,
       },
     });
@@ -84,10 +83,10 @@ class ChecklistPrismaRepository
               itemChecklist.item.itemDesc,
               itemChecklist.item.recommendations,
               itemChecklist.item.isMandatory,
-              itemChecklist.item.sectionId,
-              new SectionEntity(
-                itemChecklist.item.section.id,
-                itemChecklist.item.section.name,
+              itemChecklist.item.principleId,
+              new PrincipleEntity(
+                itemChecklist.item.principle.id,
+                itemChecklist.item.principle.name,
               ),
             ),
             itemChecklist.answer as AnswerType,
@@ -95,7 +94,7 @@ class ChecklistPrismaRepository
             itemChecklist.userComment,
           ),
       ),
-      checklist.laws.map((law) => new LawEntity(law.id, law.name)),
+      checklist.principles.map((p) => new PrincipleEntity(p.id, p.name)),
       checklist.devices.map(
         (device) => new DeviceEntity(device.id, device.name),
       ),
@@ -113,13 +112,12 @@ class ChecklistPrismaRepository
             item: {
               include: {
                 devices: true,
-                laws: true,
-                section: true,
+                principle: true,
               },
             },
           },
         },
-        laws: true,
+        principles: true,
         devices: true,
       },
     });
@@ -139,13 +137,10 @@ class ChecklistPrismaRepository
                   itemChecklist.item.itemDesc,
                   itemChecklist.item.recommendations,
                   itemChecklist.item.isMandatory,
-                  itemChecklist.item.sectionId,
-                  new SectionEntity(
-                    itemChecklist.item.section.id,
-                    itemChecklist.item.section.name,
-                  ),
-                  itemChecklist.item.laws.map(
-                    (law) => new LawEntity(law.id, law.name),
+                  itemChecklist.item.principleId,
+                  new PrincipleEntity(
+                    itemChecklist.item.principle.id,
+                    itemChecklist.item.principle.name,
                   ),
                   itemChecklist.item.devices.map(
                     (dev) => new DeviceEntity(dev.id, dev.name),
@@ -156,7 +151,7 @@ class ChecklistPrismaRepository
                 itemChecklist.userComment,
               ),
           ),
-          checklist.laws.map((law) => new LawEntity(law.id, law.name)),
+          checklist.principles.map((p) => new PrincipleEntity(p.id, p.name)),
           checklist.devices.map(
             (device) => new DeviceEntity(device.id, device.name),
           ),
@@ -247,7 +242,7 @@ class ChecklistPrismaRepository
       include: {
         item: {
           include: {
-            section: true,
+            principle: true,
           },
         },
       },
@@ -262,9 +257,8 @@ class ChecklistPrismaRepository
           item.item.itemDesc,
           item.item.recommendations,
           item.item.isMandatory,
-          item.item.sectionId,
-          new SectionEntity(item.item.section.id, item.item.section.name),
-          null,
+          item.item.principleId,
+          new PrincipleEntity(item.item.principle.id, item.item.principle.name),
           null,
         ),
         item.answer as AnswerType,
@@ -318,8 +312,8 @@ class ChecklistPrismaRepository
     });
   }
 
-  async getLaws(id: number): Promise<LawEntity[]> {
-    const laws = await this.prisma.laws.findMany({
+  async getPrinciples(id: number): Promise<PrincipleEntity[]> {
+    const principles = await this.prisma.principles.findMany({
       where: {
         checklists: {
           some: {
@@ -329,26 +323,26 @@ class ChecklistPrismaRepository
       },
     });
 
-    return laws.map((law) => new LawEntity(law.id, law.name));
+    return principles.map((p) => new PrincipleEntity(p.id, p.name));
   }
 
-  async insertLaws(id: number, lawsIds: number[]): Promise<void> {
+  async insertPrinciples(id: number, principlesIds: number[]): Promise<void> {
     await this.prisma.checklists.update({
       where: { id },
       data: {
-        laws: {
-          connect: lawsIds.map((lawId) => ({ id: lawId })),
+        principles: {
+          connect: principlesIds.map((principleId) => ({ id: principleId })),
         },
       },
     });
   }
 
-  async removeLaws(id: number, lawsIds: number[]): Promise<void> {
+  async removePrinciples(id: number, principlesIds: number[]): Promise<void> {
     await this.prisma.checklists.update({
       where: { id },
       data: {
-        laws: {
-          disconnect: lawsIds.map((lawId) => ({ id: lawId })),
+        principles: {
+          disconnect: principlesIds.map((principleId) => ({ id: principleId })),
         },
       },
     });

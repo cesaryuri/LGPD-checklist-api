@@ -9,20 +9,20 @@ import {
 
 export class ListItemsController extends Controller {
   async execute(req: Request, res: Response) {
-    const { laws, devices } = req.query;
+    const { principles, devices } = req.query;
 
     const ucReq: ucio.ListItemsUseCaseRequest = {
-      laws: typeof laws === "string" ? laws.split(",").map(Number) : [],
+      principles: typeof principles === "string" ? principles.split(",").map(Number) : [],
       devices:
         typeof devices === "string" ? devices.split(",").map(Number) : [],
     };
 
     const itemRepository = this.factory.makeItemRepository();
-    const lawRepository = this.factory.makeLawRepository();
+    const principleRepository = this.factory.makePrincipleRepository();
     const deviceRepository = this.factory.makeDeviceRepository();
     const usecase = new useCase.ListItemsUseCase(
       itemRepository,
-      lawRepository,
+      principleRepository,
       deviceRepository,
     );
     const ucRes = await usecase.execute(ucReq);
