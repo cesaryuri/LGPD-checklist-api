@@ -48,21 +48,10 @@ model Checklists {
   user            Users            @relation(fields: [userId], references: [id], onDelete: Cascade)
   system          Systems          @relation(fields: [systemId], references: [id], onDelete: Cascade)
   ItemsChecklists ChecklistItems[]
-  laws            Laws[]           @relation("checklist_laws")
+  principles      Principles[]     @relation("checklist_principles")
   devices         Devices[]        @relation("checklist_devices")
 
   @@map("checklists")
-}
-
-model Laws {
-  id         Int          @id @default(autoincrement())
-  name       String       @db.VarChar(255)
-  createdAt  DateTime     @default(now()) @map("created_at")
-  updatedAt  DateTime     @default(now()) @updatedAt @map("updated_at")
-  items      Items[]      @relation("item_laws")
-  checklists Checklists[] @relation("checklist_laws")
-
-  @@map("laws")
 }
 
 model Devices {
@@ -84,11 +73,10 @@ model Items {
   isMandatory     Boolean          @map("is_mandatory")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @default(now()) @updatedAt @map("updated_at")
-  laws            Laws[]           @relation("item_laws")
   devices         Devices[]        @relation("item_devices")
   ItemsChecklists ChecklistItems[]
-  sectionId       Int              @map("section_id")
-  section         Sections         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  principleId     Int              @map("principle_id")
+  principle       Principles       @relation(fields: [principleId], references: [id], onDelete: Cascade)
 
   @@map("items")
 }
@@ -107,12 +95,13 @@ model ChecklistItems {
   @@map("checklist_items")
 }
 
-model Sections {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  Items     Items[]
+model Principles {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @default(now()) @updatedAt @map("updated_at")
+  Items      Items[]
+  checklists Checklists[] @relation("checklist_principles")
 
-  @@map("sections")
+  @@map("principles")
 }
