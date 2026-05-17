@@ -50,7 +50,8 @@ INSERT INTO users (name, office, email, password) VALUES
 ('Julia Zanetti', 'DPO', 'julia@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
 ('Kevin Abreu', 'Analista', 'kevin@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
 ('Laura Braga', 'Gerente', 'laura@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
-('Matheus Frej Lemos Cavalcanti', 'Engenheiro de Software', 'matheusfrej@gmail.com', '$2a$11$rh/s23beBrESrkYy3AkOnOeeEGNLOk5nrRVjOtgE0rk7sATPvOvfq');
+('Matheus Frej Lemos Cavalcanti', 'Engenheiro de Software', 'matheusfrej@gmail.com', '$2a$11$rh/s23beBrESrkYy3AkOnOeeEGNLOk5nrRVjOtgE0rk7sATPvOvfq'),
+('Teste Test Testos ', 'Engenheiro de testes', 'test@gmail.com', '$2a$11$rh/s23beBrESrkYy3AkOnOeeEGNLOk5nrRVjOtgE0rk7sATPvOvfq');
 
 -- Items do tipo Sensor (ids 1-11)
 INSERT INTO items (code, item_desc, recommendations, device_type) VALUES
@@ -92,23 +93,28 @@ INSERT INTO items (code, item_desc, recommendations, device_type) VALUES
 ('A-03', 'Houve mudança da senha padrão do dispositivo para evitar acesso não autorizado?', 'É de suma importância a mudança imediata da senha padrão do dispositivo, que é facilmente encontrada no manual.', 'Implantavel'),
 ('SF-03', 'O dispositivo é protegido contra tentativas de ser resetado para configuração de fábrica?', 'Apenas pessoas autorizadas devem ter acesso físico ao botão de reset. Se não for restrito, uma solução é a blindagem do equipamento.', 'Implantavel');
 
+
 -- Relação item↔principle
 INSERT INTO "_item_principles" ("A", "B") VALUES
 -- Sensor (ids 1-11)
-(1, 1), (2, 1), (3, 1), (4, 1),   -- T-01 a T-04 → Transparência
-(5, 4), (6, 4), (7, 4),            -- S-01, S-04, S-06 → Segurança
+(1, 1), (1, 2), (1, 5),             -- ITEM 1 (T-01) com 3 Princípios: Transparência, Consentimento e Responsabilidade
+(2, 1), (3, 1), (4, 1),             -- T-02 a T-04 → Transparência
+(5, 4), (5, 7),                     -- ITEM 5 (S-01) com 2 Princípios: Segurança e Segurança Física
+(6, 4), (7, 4),                     -- S-04, S-06 → Segurança
 (8, 5),                             -- R-01 → Responsabilidade
 (9, 6),                             -- A-01 → Acesso
 (10, 7), (11, 7),                   -- SF-01, SF-02-S → Segurança Física
 -- Wearable (ids 12-22)
-(12, 1), (13, 1),                   -- T-05, T-06 → Transparência
+(12, 1), (12, 3),                   -- ITEM 12 (T-05) com 2 Princípios: Transparência e Direitos do Titular
+(13, 1),                            -- T-06 → Transparência
 (14, 2), (15, 2), (16, 2),          -- C-01, C-02, C-03 → Consentimento
 (17, 3), (18, 3),                   -- D-01, D-05 → Direitos
 (19, 4), (20, 4),                   -- S-05, S-08 → Segurança
 (21, 6),                            -- A-02 → Acesso
 (22, 5),                            -- R-02 → Responsabilidade
 -- Implantavel (ids 23-33)
-(23, 1), (24, 1),                   -- T-07, T-08 → Transparência
+(23, 1), (23, 4), (23, 5),          -- ITEM 23 (T-07) com 3 Princípios: Transparência, Segurança e Responsabilidade
+(24, 1),                            -- T-08 → Transparência
 (25, 2), (26, 2),                   -- C-04, C-05 → Consentimento
 (27, 3), (28, 3),                   -- D-07, D-08 → Direitos
 (29, 4), (30, 4),                   -- S-02, S-19 → Segurança
