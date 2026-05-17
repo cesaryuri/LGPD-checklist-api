@@ -1,7 +1,6 @@
 import { ChecklistEntity } from "../../entity/checklist";
 import { ChecklistItemEntity } from "../../entity/checklistItem";
-import { DeviceEntity } from "../../entity/device";
-import { PrincipleEntity } from "../../entity/principle"
+
 import {
   CreateChecklistUseCaseRequest,
   DeleteChecklistUseCaseRequest,
@@ -30,16 +29,6 @@ interface ChecklistRepositoryInterface {
   insertItems(id: number, items: ChecklistItemEntity[]): Promise<void>;
   removeItems(id: number, itemsIds: number[]): Promise<void>;
   updateItem(id: number, item: ChecklistItemEntity): Promise<void>;
-
-  // principles                                                              
-  getPrinciples(id: number): Promise<PrincipleEntity[]>;                     
-  insertPrinciples(id: number, principlesIds: number[]): Promise<void>;     
-  removePrinciples(id: number, principlesIds: number[]): Promise<void>; 
-
-  // devices
-  getDevices(id: number): Promise<DeviceEntity[]>;
-  insertDevices(id: number, devicesIds: number[]): Promise<void>;
-  removeDevices(id: number, devicesIds: number[]): Promise<void>;
 
   runInTransaction<T>(fn: (repo: this) => Promise<T>): Promise<T>;
 }

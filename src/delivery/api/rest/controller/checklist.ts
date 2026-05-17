@@ -8,7 +8,8 @@ import { Controller } from "./controller";
 
 class CreateChecklistController extends Controller {
   async execute(req: Request, res: Response) {
-    const { tokenUserId, userId, systemId, items, principles, devices } = req.body;
+    const { tokenUserId, userId, systemId, items, principles, devices } =
+      req.body;
 
     const ucReq = {
       tokenUserId,
@@ -23,15 +24,11 @@ class CreateChecklistController extends Controller {
     const systemRepository = this.factory.makeSystemRepository();
     const userRepository = this.factory.makeUserRepository();
     const itemRepository = this.factory.makeItemRepository();
-    const principleRepository = this.factory.makePrincipleRepository();
-    const deviceRepository = this.factory.makeDeviceRepository();
     const ucRes = await new useCase.CreateChecklistUseCase(
       checklistRepository,
       systemRepository,
       userRepository,
       itemRepository,
-      principleRepository,
-      deviceRepository,
     ).execute(ucReq);
 
     if (!ucRes.error) {
@@ -91,20 +88,16 @@ class DeleteChecklistController extends Controller {
 class UpdateChecklistController extends Controller {
   async execute(req: Request, res: Response) {
     const { id } = req.params;
-    const { tokenUserId, systemId, items, principles, devices } = req.body;
+    const { tokenUserId, systemId, items, deviceType } = req.body;
 
     const checklistRepository = this.factory.makeChecklistRepository();
     const systemRepository = this.factory.makeSystemRepository();
     const itemRepository = this.factory.makeItemRepository();
-    const principleRepository = this.factory.makePrincipleRepository();
-    const deviceRepository = this.factory.makeDeviceRepository();
 
     const usecase = new useCase.UpdateChecklistUseCase(
       checklistRepository,
       systemRepository,
       itemRepository,
-      principleRepository,
-      deviceRepository,
     );
 
     const ucRes = await usecase.execute({
@@ -112,8 +105,7 @@ class UpdateChecklistController extends Controller {
       tokenUserId,
       systemId,
       items,
-      principles,
-      devices,
+      deviceType,
     });
 
     if (!ucRes.error) {

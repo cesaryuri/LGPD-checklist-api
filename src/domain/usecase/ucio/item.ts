@@ -5,8 +5,7 @@ export type CreateItemUseCaseRequest = {
   code: string;
   itemDesc: string;
   recommendations: string;
-  principleId: number;
-  devicesIds: number[];
+  deviceType: string;
 };
 
 export type ListItemsUseCaseRequest = {
