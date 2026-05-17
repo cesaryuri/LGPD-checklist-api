@@ -1,4 +1,3 @@
-import { DeviceEntity } from "./device";
 import { PrincipleEntity } from "./principle";
 
 export class ItemEntity {
@@ -6,25 +5,22 @@ export class ItemEntity {
   public code: string;
   public itemDesc: string;
   public recommendations: string;
-  public principleId: number;
-  public principle?: PrincipleEntity;
-  public devices?: DeviceEntity[];
+  public deviceType: string;
+  public principles?: PrincipleEntity[];
 
   constructor(
     id: number,
     code: string,
     itemDesc: string,
     recommendations: string,
-    principleId: number,
-    principle?: PrincipleEntity,
-    devices?: DeviceEntity[],
+    deviceType: string,
+    principles?: PrincipleEntity[],
   ) {
     this.id = id;
     this.code = code;
     this.itemDesc = itemDesc;
     this.recommendations = recommendations;
-    this.principleId = principleId;
-    this.principle = principle;
-    this.devices = devices;
+    this.deviceType = deviceType;
+    this.principles = principles;
   }
 }

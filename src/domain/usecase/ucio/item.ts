@@ -1,6 +1,4 @@
-import { DeviceEntity } from "../../entity/device";
 import { ItemEntity } from "../../entity/item";
-import { PrincipleEntity } from "../../entity/principle";
 import { BaseResponse } from "./common";
 
 export type CreateItemUseCaseRequest = {
@@ -12,8 +10,7 @@ export type CreateItemUseCaseRequest = {
 };
 
 export type ListItemsUseCaseRequest = {
-  principles: PrincipleEntity["id"][];
-  devices: DeviceEntity["id"][];
+  deviceType: string;
 };
 
 export type ListItemsUseCaseResponse = BaseResponse & {

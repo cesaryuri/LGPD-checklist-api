@@ -7,7 +7,6 @@ import {
 import { PrismaRepository } from "./repository";
 import { Prisma } from "@prisma/client";
 import { PrincipleEntity } from "../../../../domain/entity/principle";
-import { DeviceEntity } from "../../../../domain/entity/device";
 
 class ItemPrismaRepository
   extends PrismaRepository
@@ -34,35 +33,10 @@ class ItemPrismaRepository
   async list(req: ListItemsUseCaseRequest): Promise<ItemEntity[]> {
     const items = await this.prisma.items.findMany({
       where: {
-        principleId: {
-          in: req.principles,
-        },
-        ...(req.devices?.length
-          ? {
-              OR: [
-                {
-                  devices: {
-                    some: {
-                      id: { in: req.devices },
-                    },
-                  },
-                },
-                {
-                  devices: {
-                    none: {}, // também aceita quem não tem nenhum device
-                  },
-                },
-              ],
-            }
-          : {
-              devices: {
-                none: {}, // se não passou nada, só traz quem não tem device
-              },
-            }),
+        deviceType: req.deviceType as any,
       },
       include: {
-        principle: true,
-        devices: true,
+        principles: true,
       },
     });
 
@@ -73,11 +47,8 @@ class ItemPrismaRepository
           item.code,
           item.itemDesc,
           item.recommendations,
-          item.principleId,
-          new PrincipleEntity(item.principle.id, item.principle.name),
-          item.devices.map(
-            (device) => new DeviceEntity(device.id, device.name),
-          ),
+          item.deviceType,
+          item.principles.map((p) => new PrincipleEntity(p.id, p.name)),
         ),
     );
   }

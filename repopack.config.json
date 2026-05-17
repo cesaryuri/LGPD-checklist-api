@@ -1,0 +1,27 @@
+{
+  "output": {
+    "filePath": "repopack-output.txt",
+    "style": "plain"
+  },
+  "include": [
+    "prisma/schema.prisma",
+    "prisma/migrations/**/*.sql",
+    "src/**/*.ts",
+    "dev-scripts/InserirDadosTeste.sql",
+    "package.json",
+    "tsconfig.json"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "**/*.spec.ts",
+      "test/**",
+      "prisma/vitest-environment-prisma/**",
+      "src/delivery/api/rest/controller/*.spec.ts",
+      "src/domain/usecase/*.spec.ts",
+      "vite.config.ts",
+      ".github/**"
+    ]
+  }
+}
