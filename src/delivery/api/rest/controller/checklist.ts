@@ -8,13 +8,14 @@ import { Controller } from "./controller";
 
 class CreateChecklistController extends Controller {
   async execute(req: Request, res: Response) {
-    const { tokenUserId, userId, systemId, items } = req.body;
+    const { tokenUserId, userId, systemId, items, deviceType } = req.body;
 
     const ucReq = {
       tokenUserId,
       userId,
       systemId,
       items,
+      deviceType,
     };
 
     const checklistRepository = this.factory.makeChecklistRepository();

@@ -1,0 +1,321 @@
+{
+  "info": {
+    "_postman_id": "lgpd-api-final-fidelized",
+    "name": "LGPD Checklist IoT - Oficial",
+    "description": "Coleção corrigida e fiel à documentação oficial das rotas em plural.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth & Usuários",
+      "item": [
+        {
+          "name": "POST /users (Criar Usuário)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Silva\",\n  \"office\": \"DPO\",\n  \"email\": \"alice@example.com\",\n  \"password\": \"Senha@123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users",
+              "host": ["{{baseURL}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "POST /login (Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const resposta = pm.response.json();\nconst token = resposta.token;\npm.globals.set(\"token\", token);\nconsole.log(\"Token global capturado com sucesso: \", token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"Senha@123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/login",
+              "host": ["{{baseURL}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "GET /token (Verificar token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/token",
+              "host": ["{{baseURL}}"],
+              "path": ["token"]
+            }
+          }
+        },
+        {
+          "name": "GET /users/:id (Buscar por ID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": ["{{baseURL}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "PUT /users/:id (Atualizar usuário)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Oliveira\",\n  \"office\": \"Gerente de Privacidade\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": ["{{baseURL}}"],
+              "path": ["users", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /users/:id (Deletar usuário)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/users/1",
+              "host": ["{{baseURL}}"],
+              "path": ["users", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sistemas",
+      "item": [
+        {
+          "name": "POST /systems (Criar sistema)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Plataforma de Videomonitoramento\",\n  \"description\": \"Serviço de nuvem para câmeras com IA\",\n  \"userId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/systems",
+              "host": ["{{baseURL}}"],
+              "path": ["systems"]
+            }
+          }
+        },
+        {
+          "name": "GET /systems/:id (Buscar por ID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/systems/1",
+              "host": ["{{baseURL}}"],
+              "path": ["systems", "1"]
+            }
+          }
+        },
+        {
+          "name": "GET /systemsByUserId/:userId (Listar por Usuário)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/systemsByUserId/1",
+              "host": ["{{baseURL}}"],
+              "path": ["systemsByUserId", "1"]
+            }
+          }
+        },
+        {
+          "name": "PUT /systems/:id (Atualizar sistema)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Plataforma de Videomonitoramento v2\",\n  \"description\": \"Nova descrição do sistema\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/systems/1",
+              "host": ["{{baseURL}}"],
+              "path": ["systems", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /systems/:id (Deletar sistema)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/systems/1",
+              "host": ["{{baseURL}}"],
+              "path": ["systems", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dispositivos, Princípios & Itens",
+      "item": [
+        {
+          "name": "GET /devices (Listar Dispositivos)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/devices",
+              "host": ["{{baseURL}}"],
+              "path": ["devices"]
+            }
+          }
+        },
+        {
+          "name": "GET /principles (Listar Princípios)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/principles",
+              "host": ["{{baseURL}}"],
+              "path": ["principles"]
+            }
+          }
+        },
+        {
+          "name": "GET /items?deviceType= (Listar Itens)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/items?deviceType=Sensor",
+              "host": ["{{baseURL}}"],
+              "path": ["items"],
+              "query": [{ "key": "deviceType", "value": "Sensor" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checklists",
+      "item": [
+        {
+          "name": "POST /checklists (Criar Checklist)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"systemId\": 1,\n  \"deviceType\": \"Sensor\",\n  \"items\": [\n    { \"id\": 1, \"answer\": \"Sim\", \"severityDegree\": null, \"userComment\": \"Política documentada.\" },\n    { \"id\": 2, \"answer\": \"Não\", \"severityDegree\": \"Grave\", \"userComment\": \"Base legal não definida.\" },\n    { \"id\": 3, \"answer\": \"Sim\", \"severityDegree\": null, \"userComment\": null }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/checklists",
+              "host": ["{{baseURL}}"],
+              "path": ["checklists"]
+            }
+          }
+        },
+        {
+          "name": "GET /checklists/:id (Buscar por ID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/checklists/1",
+              "host": ["{{baseURL}}"],
+              "path": ["checklists", "1"]
+            }
+          }
+        },
+        {
+          "name": "GET /checklistsByUserId/:userId (Listar por Usuário)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/checklistsByUserId/1",
+              "host": ["{{baseURL}}"],
+              "path": ["checklistsByUserId", "1"]
+            }
+          }
+        },
+        {
+          "name": "GET /checklistsBySystemId/:systemId (Listar por Sistema)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/checklistsBySystemId/1",
+              "host": ["{{baseURL}}"],
+              "path": ["checklistsBySystemId", "1"]
+            }
+          }
+        },
+        {
+          "name": "PUT /checklists/:id (Atualizar Checklist)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"systemId\": 1,\n  \"deviceType\": \"Sensor\",\n  \"items\": [\n    { \"id\": 1, \"answer\": \"Sim\", \"severityDegree\": null, \"userComment\": \"Atualizado.\" },\n    { \"id\": 5, \"answer\": \"Não\", \"severityDegree\": \"Leve\", \"userComment\": \"Em progresso.\" }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseURL}}/checklists/1",
+              "host": ["{{baseURL}}"],
+              "path": ["checklists", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /checklists/:id (Deletar Checklist)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/checklists/1",
+              "host": ["{{baseURL}}"],
+              "path": ["checklists", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  }
+}

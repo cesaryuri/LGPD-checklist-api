@@ -50,8 +50,7 @@ INSERT INTO users (name, office, email, password) VALUES
 ('Julia Zanetti', 'DPO', 'julia@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
 ('Kevin Abreu', 'Analista', 'kevin@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
 ('Laura Braga', 'Gerente', 'laura@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
-('Marcos Cunha', 'Desenvolvedor', 'marcos@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW'),
-('Natalia Duarte', 'Auditora', 'natalia@example.com', '$2a$10$Rz1QmUKEFJGkHq0P5Fq2XuXkIBIGm5OSmFRs7U6tHVkFHpC8ZQnW');
+('Matheus Frej Lemos Cavalcanti', 'Engenheiro de Software', 'matheusfrej@gmail.com', '$2a$11$rh/s23beBrESrkYy3AkOnOeeEGNLOk5nrRVjOtgE0rk7sATPvOvfq');
 
 -- Items do tipo Sensor (ids 1-11)
 INSERT INTO items (code, item_desc, recommendations, device_type) VALUES
