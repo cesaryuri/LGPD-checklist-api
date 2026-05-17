@@ -6,9 +6,8 @@ export class ItemEntity {
   public code: string;
   public itemDesc: string;
   public recommendations: string;
-  public isMandatory: boolean;
-  public principleId: number;         
-  public principle?: PrincipleEntity; 
+  public principleId: number;
+  public principle?: PrincipleEntity;
   public devices?: DeviceEntity[];
 
   constructor(
@@ -16,7 +15,6 @@ export class ItemEntity {
     code: string,
     itemDesc: string,
     recommendations: string,
-    isMandatory: boolean,
     principleId: number,
     principle?: PrincipleEntity,
     devices?: DeviceEntity[],
@@ -25,7 +23,6 @@ export class ItemEntity {
     this.code = code;
     this.itemDesc = itemDesc;
     this.recommendations = recommendations;
-    this.isMandatory = isMandatory;
     this.principleId = principleId;
     this.principle = principle;
     this.devices = devices;

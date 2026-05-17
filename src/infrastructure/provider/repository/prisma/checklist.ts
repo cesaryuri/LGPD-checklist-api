@@ -82,7 +82,6 @@ class ChecklistPrismaRepository
               itemChecklist.item.code,
               itemChecklist.item.itemDesc,
               itemChecklist.item.recommendations,
-              itemChecklist.item.isMandatory,
               itemChecklist.item.principleId,
               new PrincipleEntity(
                 itemChecklist.item.principle.id,
@@ -136,7 +135,6 @@ class ChecklistPrismaRepository
                   itemChecklist.item.code,
                   itemChecklist.item.itemDesc,
                   itemChecklist.item.recommendations,
-                  itemChecklist.item.isMandatory,
                   itemChecklist.item.principleId,
                   new PrincipleEntity(
                     itemChecklist.item.principle.id,
@@ -256,7 +254,6 @@ class ChecklistPrismaRepository
           item.item.code,
           item.item.itemDesc,
           item.item.recommendations,
-          item.item.isMandatory,
           item.item.principleId,
           new PrincipleEntity(item.item.principle.id, item.item.principle.name),
           null,

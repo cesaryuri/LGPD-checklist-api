@@ -61,7 +61,7 @@ class ItemPrismaRepository
             }),
       },
       include: {
-        principle: true, 
+        principle: true,
         devices: true,
       },
     });
@@ -73,7 +73,6 @@ class ItemPrismaRepository
           item.code,
           item.itemDesc,
           item.recommendations,
-          item.isMandatory,
           item.principleId,
           new PrincipleEntity(item.principle.id, item.principle.name),
           item.devices.map(

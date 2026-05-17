@@ -7,7 +7,6 @@ export type CreateItemUseCaseRequest = {
   code: string;
   itemDesc: string;
   recommendations: string;
-  isMandatory: boolean;
   principleId: number;
   devicesIds: number[];
 };
