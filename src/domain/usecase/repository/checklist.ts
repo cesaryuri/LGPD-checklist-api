@@ -17,6 +17,8 @@ interface ChecklistRepositoryInterface {
   getChecklist(id: number): Promise<ChecklistEntity>;
   deleteChecklist(req: DeleteChecklistUseCaseRequest): Promise<void>;
   updateChecklist(req: UpdateChecklistUseCaseRequest): Promise<void>;
+  derivePrinciples(checklistId: number): Promise<string>;
+  savePrinciples(checklistId: number, principles: string): Promise<void>;
   listChecklistsByUserId(
     req: ListChecklistsByUserIdUseCaseRequest,
   ): Promise<ChecklistEntity[]>;

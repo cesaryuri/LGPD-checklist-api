@@ -40,6 +40,10 @@ class CreateChecklistUseCase {
 
       if (!messageError) {
         const checklist = await this.checklistRepository.createChecklist(req);
+        const principles = await this.checklistRepository.derivePrinciples(
+          checklist.id,
+        );
+        await this.checklistRepository.savePrinciples(checklist.id, principles);
 
         return {
           checklist,
@@ -173,6 +177,8 @@ class UpdateChecklistUseCase {
         await this.checklistRepository.runInTransaction(async (repo) => {
           await this.updateItems(req, repo);
           await repo.updateChecklist(req);
+          const principles = await repo.derivePrinciples(req.id);
+          await repo.savePrinciples(req.id, principles);
         });
 
         return {
