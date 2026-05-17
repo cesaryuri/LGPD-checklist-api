@@ -74,6 +74,7 @@ model Checklists {
   userId          Int              @map("user_id")
   systemId        Int              @map("system_id")
   deviceType      DeviceType       @map("device_type")
+  principles      String?          @map("principles")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @default(now()) @updatedAt @map("updated_at")
   user            Users            @relation(fields: [userId], references: [id], onDelete: Cascade)

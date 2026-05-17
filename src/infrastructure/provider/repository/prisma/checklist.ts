@@ -1,4 +1,5 @@
 import { ChecklistEntity } from "../../../../domain/entity/checklist";
+import { Prisma, DeviceType } from "@prisma/client";
 import {
   CreateChecklistUseCaseRequest,
   DeleteChecklistUseCaseRequest,
@@ -15,7 +16,6 @@ import {
 import { ItemEntity } from "../../../../domain/entity/item";
 import { PrincipleEntity } from "../../../../domain/entity/principle";
 import { PrismaRepository } from "./repository";
-import { Prisma } from "@prisma/client";
 
 class ChecklistPrismaRepository
   extends PrismaRepository
@@ -34,7 +34,7 @@ class ChecklistPrismaRepository
       data: {
         userId: req.userId,
         systemId: req.systemId,
-        deviceType: req.deviceType as any,
+        deviceType: req.deviceType as DeviceType,
         ItemsChecklists: {
           createMany: {
             data: req.items.map((item) => ({
@@ -146,7 +146,7 @@ class ChecklistPrismaRepository
       where: { id: req.id },
       data: {
         systemId: req.systemId,
-        deviceType: req.deviceType as any,
+        deviceType: req.deviceType as DeviceType,
       },
     });
   }
