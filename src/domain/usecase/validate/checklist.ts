@@ -170,10 +170,11 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
     systemId: zodNumberSchema("SystemId"),
     tokenUserId: zodNumberSchema("Id do token"),
     items: itemsZodValidation,
-    principles: zodNumberSchema("principles").array().nonempty({
-      message: "Principles não pode ser um array vazio.",
+    deviceType: z.enum(["Sensor", "Wearable", "Implantavel"], {
+      errorMap: () => ({
+        message: "deviceType deve ser Sensor, Wearable ou Implantavel.",
+      }),
     }),
-    devices: zodNumberSchema("devices").array(),
   });
 
   constructor(
