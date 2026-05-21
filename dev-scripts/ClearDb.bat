@@ -4,7 +4,7 @@ set "PGUSER=postgres"
 set "PGPASSWORD=suasenha" 
 set "PGDB=bdchecklist"
 set "CONTAINER_NAME=lgpd-checklist-api-db-1"
-set "SQLFILE=InserirDadosTeste.sql"
+set "SQLFILE=ClearDb.sql"
 
 echo.
 echo ===================================================
