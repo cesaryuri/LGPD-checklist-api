@@ -1,7 +1,7 @@
 @echo off
 :: ===== CONFIGURAÇÃO =====
 set "PGUSER=postgres"
-set "PGPASSWORD=suasenha" 
+set "PGPASSWORD=SuaSenhaBd" 
 set "PGDB=bdchecklist"
 set "CONTAINER_NAME=lgpd-checklist-api-db-1"
 set "SQLFILE=InserirDadosTeste.sql"
