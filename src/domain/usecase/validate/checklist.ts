@@ -18,8 +18,6 @@ import {
   severityDegreeTypeArray,
 } from "../../entity/checklistItem";
 import { ItemRepositoryInterface } from "../repository/item";
-import { LawRepositoryInterface } from "../repository/law";
-import { DeviceRepositoryInterface } from "../repository/device";
 
 const itemsZodValidation = z
   .object({
@@ -49,32 +47,27 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
   private systemRepository: SystemRepositoryInterface;
   private userRepository: UserRepositoryInterface;
   private itemRepository: ItemRepositoryInterface;
-  private lawRepository: LawRepositoryInterface;
-  private deviceRepository: DeviceRepositoryInterface;
 
   private validationSchema = z.object({
     userId: zodNumberSchema("UserId"),
     systemId: zodNumberSchema("SystemId"),
     tokenUserId: zodNumberSchema("Id do token"),
     items: itemsZodValidation,
-    laws: zodNumberSchema("laws").array().nonempty({
-      message: "Laws não pode ser um array vazio.",
+    deviceType: z.enum(["Sensor", "Wearable", "Implantavel"], {
+      errorMap: () => ({
+        message: "deviceType deve ser Sensor, Wearable ou Implantavel.",
+      }),
     }),
-    devices: zodNumberSchema("devices").array(),
   });
 
   constructor(
     systemRepository: SystemRepositoryInterface,
     userRepository: UserRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
-    deviceRepository: DeviceRepositoryInterface,
   ) {
     this.systemRepository = systemRepository;
     this.userRepository = userRepository;
     this.itemRepository = itemRepository;
-    this.lawRepository = lawRepository;
-    this.deviceRepository = deviceRepository;
   }
 
   async validate(req: CreateChecklistUseCaseRequest): Promise<string | null> {
@@ -93,19 +86,6 @@ class CreateChecklistUseCaseValidate implements ValidateInterface {
 
         if (items.length)
           return "Os seguintes ids de item não existem: " + items.join(", ");
-
-        const laws = await this.lawRepository.existByIds(req.laws);
-
-        if (laws.length)
-          return "Os seguintes ids de leis não existem: " + laws.join(", ");
-
-        const devices = await this.deviceRepository.existByIds(req.devices);
-
-        if (devices.length)
-          return (
-            "Os seguintes ids de dispositivos não existem: " +
-            devices.join(", ")
-          );
 
         if (!system) return "O sistema informado não existe.";
 
@@ -184,32 +164,27 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
   private checklistRepository: ChecklistRepositoryInterface;
   private systemRepository: SystemRepositoryInterface;
   private itemRepository: ItemRepositoryInterface;
-  private lawRepository: LawRepositoryInterface;
-  private deviceRepository: DeviceRepositoryInterface;
 
   private validationSchema = z.object({
     id: zodNumberSchema("Id"),
     systemId: zodNumberSchema("SystemId"),
     tokenUserId: zodNumberSchema("Id do token"),
     items: itemsZodValidation,
-    laws: zodNumberSchema("laws").array().nonempty({
-      message: "Laws não pode ser um array vazio.",
+    deviceType: z.enum(["Sensor", "Wearable", "Implantavel"], {
+      errorMap: () => ({
+        message: "deviceType deve ser Sensor, Wearable ou Implantavel.",
+      }),
     }),
-    devices: zodNumberSchema("devices").array(),
   });
 
   constructor(
     checklistRepository: ChecklistRepositoryInterface,
     systemRepository: SystemRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
-    deviceRepository: DeviceRepositoryInterface,
   ) {
     this.checklistRepository = checklistRepository;
     this.systemRepository = systemRepository;
     this.itemRepository = itemRepository;
-    this.lawRepository = lawRepository;
-    this.deviceRepository = deviceRepository;
   }
 
   async validate(req: UpdateChecklistUseCaseRequest): Promise<string | null> {
@@ -234,19 +209,6 @@ class UpdateChecklistUseCaseValidate implements ValidateInterface {
 
         if (items.length)
           return "Os seguintes ids de item não existem: " + items.join(", ");
-
-        const laws = await this.lawRepository.existByIds(req.laws);
-
-        if (laws.length)
-          return "Os seguintes ids de leis não existem: " + laws.join(", ");
-
-        const devices = await this.deviceRepository.existByIds(req.devices);
-
-        if (devices.length)
-          return (
-            "Os seguintes ids de dispositivos não existem: " +
-            devices.join(", ")
-          );
 
         if (
           checklist.userId !== req.tokenUserId ||

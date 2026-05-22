@@ -1,4 +1,4 @@
-export class SectionEntity {
+export class PrincipleEntity {
   public id: number;
   public name: string;
 

@@ -13,8 +13,6 @@ import { UserRepositoryInterface } from "./repository/user";
 import { ItemRepositoryInterface } from "./repository/item";
 import { ChecklistItemEntity } from "../entity/checklistItem";
 import { ItemEntity } from "../entity/item";
-import { LawRepositoryInterface } from "./repository/law";
-import { DeviceRepositoryInterface } from "./repository/device";
 
 class CreateChecklistUseCase {
   public validate: validate.CreateChecklistUseCaseValidate;
@@ -25,15 +23,11 @@ class CreateChecklistUseCase {
     systemRepository: SystemRepositoryInterface,
     userRepository: UserRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
-    deviceRepository: DeviceRepositoryInterface,
   ) {
     this.validate = new validate.CreateChecklistUseCaseValidate(
       systemRepository,
       userRepository,
       itemRepository,
-      lawRepository,
-      deviceRepository,
     );
     this.checklistRepository = checklistRepository;
   }
@@ -46,6 +40,10 @@ class CreateChecklistUseCase {
 
       if (!messageError) {
         const checklist = await this.checklistRepository.createChecklist(req);
+        const principles = await this.checklistRepository.derivePrinciples(
+          checklist.id,
+        );
+        await this.checklistRepository.savePrinciples(checklist.id, principles);
 
         return {
           checklist,
@@ -160,15 +158,11 @@ class UpdateChecklistUseCase {
     checklistRepository: ChecklistRepositoryInterface,
     systemRepository: SystemRepositoryInterface,
     itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
-    deviceRepository: DeviceRepositoryInterface,
   ) {
     this.validate = new validate.UpdateChecklistUseCaseValidate(
       checklistRepository,
       systemRepository,
       itemRepository,
-      lawRepository,
-      deviceRepository,
     );
     this.checklistRepository = checklistRepository;
   }
@@ -180,15 +174,11 @@ class UpdateChecklistUseCase {
       const messageError = await this.validate.validate(req);
 
       if (!messageError) {
-        // Transação
         await this.checklistRepository.runInTransaction(async (repo) => {
           await this.updateItems(req, repo);
-
-          await this.updateLaws(req, repo);
-          await this.updateDevices(req, repo);
-
-          // Atualiza o resto dos campos
           await repo.updateChecklist(req);
+          const principles = await repo.derivePrinciples(req.id);
+          await repo.savePrinciples(req.id, principles);
         });
 
         return {
@@ -234,7 +224,7 @@ class UpdateChecklistUseCase {
           (item) =>
             new ChecklistItemEntity(
               null,
-              new ItemEntity(item.id, null, null, null, null, null, null),
+              new ItemEntity(item.id, null, null, null, null),
               item.answer,
               item.severityDegree,
               item.userComment,
@@ -247,47 +237,12 @@ class UpdateChecklistUseCase {
         req.id,
         new ChecklistItemEntity(
           null,
-          new ItemEntity(item.id, null, null, null, null, null, null),
+          new ItemEntity(item.id, null, null, null, null),
           item.answer,
           item.severityDegree,
           item.userComment,
         ),
       );
-  }
-
-  async updateLaws(
-    req: ucio.UpdateChecklistUseCaseRequest,
-    repo: ChecklistRepositoryInterface,
-  ) {
-    const currentItems = await repo.getLaws(req.id);
-
-    const currentIds = currentItems.map((item) => item.id);
-    const newItemsIds = req.laws;
-
-    const itemsToDelete = currentIds.filter((id) => !newItemsIds.includes(id));
-    const itemsToCreate = req.laws.filter((item) => !currentIds.includes(item));
-
-    if (itemsToDelete.length) await repo.removeLaws(req.id, itemsToDelete);
-
-    if (itemsToCreate.length) await repo.insertLaws(req.id, itemsToCreate);
-  }
-
-  async updateDevices(
-    req: ucio.UpdateChecklistUseCaseRequest,
-    repo: ChecklistRepositoryInterface,
-  ) {
-    const currentItems = await repo.getDevices(req.id);
-
-    const currentIds = currentItems.map((item) => item.id);
-    const newItemsIds = req.devices;
-
-    const itemsToDelete = currentIds.filter((id) => !newItemsIds.includes(id));
-    const itemsToCreate = req.devices.filter(
-      (item) => !currentIds.includes(item),
-    );
-    if (itemsToDelete.length) await repo.removeDevices(req.id, itemsToDelete);
-
-    if (itemsToCreate.length) await repo.insertDevices(req.id, itemsToCreate);
   }
 }
 

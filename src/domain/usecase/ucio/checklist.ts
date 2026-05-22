@@ -1,9 +1,6 @@
 import { ChecklistEntity } from "../../entity/checklist";
 import { AnswerType, SeverityDegreeType } from "../../entity/checklistItem";
-import { DeviceEntity } from "../../entity/device";
-import { LawEntity } from "../../entity/law";
 import { BaseResponse, UserAuthenticated } from "./common";
-
 type ItemsInput = {
   id: number;
   answer: AnswerType;
@@ -15,8 +12,7 @@ export type CreateChecklistUseCaseRequest = UserAuthenticated & {
   userId: number;
   systemId: number;
   items: ItemsInput;
-  laws: LawEntity["id"][];
-  devices: DeviceEntity["id"][];
+  deviceType: string;
 };
 
 export type CreateChecklistUseCaseResponse = BaseResponse & {
@@ -41,8 +37,7 @@ export type UpdateChecklistUseCaseRequest = UserAuthenticated & {
   id: number;
   systemId: number;
   items: ItemsInput;
-  laws: LawEntity["id"][];
-  devices: DeviceEntity["id"][];
+  deviceType: string;
 };
 
 export type UpdateChecklistUseCaseResponse = BaseResponse;

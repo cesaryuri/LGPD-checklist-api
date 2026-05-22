@@ -9,22 +9,14 @@ import {
 
 export class ListItemsController extends Controller {
   async execute(req: Request, res: Response) {
-    const { laws, devices } = req.query;
+    const { deviceType } = req.query;
 
     const ucReq: ucio.ListItemsUseCaseRequest = {
-      laws: typeof laws === "string" ? laws.split(",").map(Number) : [],
-      devices:
-        typeof devices === "string" ? devices.split(",").map(Number) : [],
+      deviceType: typeof deviceType === "string" ? deviceType : "",
     };
 
     const itemRepository = this.factory.makeItemRepository();
-    const lawRepository = this.factory.makeLawRepository();
-    const deviceRepository = this.factory.makeDeviceRepository();
-    const usecase = new useCase.ListItemsUseCase(
-      itemRepository,
-      lawRepository,
-      deviceRepository,
-    );
+    const usecase = new useCase.ListItemsUseCase(itemRepository);
     const ucRes = await usecase.execute(ucReq);
 
     if (!ucRes.error) {

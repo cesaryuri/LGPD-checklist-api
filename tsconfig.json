@@ -2,7 +2,7 @@
   "ts-node": {
     "compilerOptions": {
         "module": "commonjs"
-      },
+      }
     },
     "compilerOptions": {
       "target": "es6",
@@ -40,11 +40,12 @@
       }
   },
   "include": [
-      "./src/**/*.ts",
-      "./test/**/*.ts",
+      "./src/**/*.ts"
   ],
   "exclude": [
       "./node_modules/*",
-      "dist"
+      "dist",
+      "./test/**/*",
+      "./src/**/*.spec.ts"
   ]
 }

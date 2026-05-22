@@ -17,17 +17,14 @@ export class DevicePrismaRepository
   }
 
   async existByIds(ids: number[]): Promise<number[]> {
-    const items = await this.prisma.devices.findMany({
-      where: {
-        id: { in: ids },
-      },
-    });
-
-    return ids.filter((id) => !items.find((item) => item.id === id));
+    throw new Error("Method not implemented." + ids);
   }
 
   async list(): Promise<DeviceEntity[]> {
-    const devices = await this.prisma.devices.findMany({});
-    return devices.map((Device) => new DeviceEntity(Device.id, Device.name));
+    return [
+      new DeviceEntity(1, "Sensor"),
+      new DeviceEntity(2, "Wearable"),
+      new DeviceEntity(3, "Implantavel"),
+    ];
   }
 }

@@ -1,21 +1,15 @@
-import { DeviceEntity } from "../../entity/device";
 import { ItemEntity } from "../../entity/item";
-import { LawEntity } from "../../entity/law";
 import { BaseResponse } from "./common";
 
 export type CreateItemUseCaseRequest = {
   code: string;
   itemDesc: string;
   recommendations: string;
-  isMandatory: boolean;
-  sectionId: number;
-  lawsIds: number[];
-  devicesIds: number[];
+  deviceType: string;
 };
 
 export type ListItemsUseCaseRequest = {
-  laws: LawEntity["id"][];
-  devices: DeviceEntity["id"][];
+  deviceType: string;
 };
 
 export type ListItemsUseCaseResponse = BaseResponse & {

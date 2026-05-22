@@ -1,6 +1,6 @@
 import { ItemRepositoryInterface } from "./repository/item";
-import * as validate from "../usecase/validate/item";
 import * as ucio from "../usecase/ucio/item";
+import { ListItemsUseCaseValidate } from "./validate/item";
 import {
   INTERNAL_SERVER_ERROR_MESSAGE,
   newInternalServerError,
@@ -8,23 +8,14 @@ import {
   TAG_INTERNAL_SERVER_ERROR,
   TAG_PRE_CONDITIONAL_ERROR,
 } from "../entity/error";
-import { LawRepositoryInterface } from "./repository/law";
-import { DeviceRepositoryInterface } from "./repository/device";
 
 export class ListItemsUseCase {
-  public validate: validate.ListItemsUseCaseValidate;
+  private validate: ListItemsUseCaseValidate;
   private itemRepository: ItemRepositoryInterface;
 
-  constructor(
-    itemRepository: ItemRepositoryInterface,
-    lawRepository: LawRepositoryInterface,
-    deviceRepository: DeviceRepositoryInterface,
-  ) {
+  constructor(itemRepository: ItemRepositoryInterface) {
+    this.validate = new ListItemsUseCaseValidate();
     this.itemRepository = itemRepository;
-    this.validate = new validate.ListItemsUseCaseValidate(
-      lawRepository,
-      deviceRepository,
-    );
   }
 
   async execute(
